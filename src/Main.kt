@@ -1,5 +1,8 @@
 import imageSaving.genImage
-
+import procedualGeneration.PerlinNoise
 fun main(args: Array<String>){
-    genImage(100,100, "test")
+    val perlinNoise: PerlinNoise = PerlinNoise()
+
+    genImage(1000,1000, "test")
+
 }
