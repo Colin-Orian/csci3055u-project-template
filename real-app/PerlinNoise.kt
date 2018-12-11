@@ -1,9 +1,11 @@
-/*An Implentation of Perlin Noise*/
+/*Programmer Name: Colin Orian
+Program Description: An implementation of Perlin Noise
+I found the algorithm here: http://flafla2.github.io/2014/08/09/perlinnoise.html
+*/
 package procedualGeneration
 
-import java.util.*
 
-public class PerlinNoise(){
+class PerlinNoise(){
     //Hash look up table defined in Perlin's Algorithm
     private val permutations:IntArray = intArrayOf(151,160,137,91,90,15,
             131,13,201,95,96,53,194,233,7,225,140,36,103,30,69,142,8,99,37,240,21,10,23,
@@ -19,23 +21,30 @@ public class PerlinNoise(){
             49,192,214, 31,181,199,106,157,184, 84,204,176,115,121,50,45,127, 4,150,254,
             138,236,205,93,222,114,67,29,24,72,243,141,128,195,78,66,215,61,156,180)
 
+    //Creates an array with two copies of the permutation array
     private var doublePermutation:IntArray = IntArray(512)
     init{
         for(i in 0..permutations.size-1){
             doublePermutation[i] = permutations[i]
             doublePermutation[256+i] = permutations[i]
-
         }
     }
 
+    //Makes the linear interpolation seem more natural
     private fun fade(x:Double): Double{
         return x * x * x *(x * (x * 6-15) + 10)
     }
 
+    //Linear interpolation
     private fun lerp(a:Double, b:Double, x:Double):Double{
         return a + x * (b-a)
     }
 
+    /*Finds the dot product of the vector xy with a psudorandom gradient vector
+    * @param hash: Has to decided the random gradient
+    * @param x: The x value
+    * @param y: The y value
+    */
     private fun grad(hash:Int, x:Double, y:Double): Double{
         val hashBitString:String = Integer.toBinaryString(hash)
         var output:Double = if(hashBitString.last() == '1') x else -x
@@ -47,6 +56,10 @@ public class PerlinNoise(){
         return output
     }
 
+    /*Computes the noise at a given x y co-ordinate
+    @param x: The x co-ord
+    @param y: The y co-ord
+    * */
     fun noise(x:Double, y:Double): Double {
 
         val xMod:Int = x.toInt() % 255
@@ -87,5 +100,4 @@ public class PerlinNoise(){
         return (interFinal+1)/2
 
     }
-
 }
